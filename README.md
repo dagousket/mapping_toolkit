@@ -12,7 +12,8 @@ usage: gff_to_bed.py [-h] --gff_file GFF_FILE [--bed12] [--no_bed6]
                      [--id_as_features] [--path PATH] [--name NAME]
                      [--verbose] [--discard] [--skip_exon_number]
 
-example run : ./gff_to_bed.py -f test_files/tiny_dmel_sample_r5-57.genes.gff -b12 -v
+example run :
+./gff_to_bed.py -f test_files/tiny_dmel_sample_r5-57.genes.gff -b12 -v
 
 Creates BED files from a given GFF file with specific filters. In BED12,
 groups all the elements of a selected molecular type according to their
@@ -56,8 +57,9 @@ Reverse complement of the gff_to_bed script. This script takes a BED file and co
 usage: bed_to_gff.py [-h] --bed_file BED_FILE --source SOURCE --mol_type
                      MOL_TYPE [--is_bed12] [--make_gff3]
 
-example run : ./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed6 -m exon -s dmel --make_gff3
-		 	  ./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed12 --is_bed12 -m exon -s dmel --make_gff3
+example run :
+./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed6 -m exon -s dmel --make_gff3
+./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed12 --is_bed12 -m exon -s dmel --make_gff3
 
 Creates GFF file from a given BED file. Note that the features of the GFF are
 created based on the ID of the BED file.
