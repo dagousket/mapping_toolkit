@@ -10,7 +10,7 @@ parser.add_argument('--gff_file','-f',required=True,help='Name of the GFF file t
 parser.add_argument('--bed12','-b12',required=False,action='store_true',help='Creates the corresponding BED12 file')
 parser.add_argument('--no_bed6','-nb6',required=False,action='store_false',help='Prevents from creating the corresponding BED6 file')
 parser.add_argument('--mol_type','-mt',required=False,type=str,default='exon',help='The molecular type (column 3 of the GFF file) selected for the BED files, default is exon')
-parser.add_argument('--feature_type','-ft',required=False,type=str,default = None,help='The feature type (column 9 of the GFF file) selected for the BED files, default is Parent')
+parser.add_argument('--feature_type','-ft',required=False,type=str,default = 'Parent',help='The feature type (column 9 of the GFF file) selected for the BED files, default is Parent')
 parser.add_argument('--id_as_features','-id',required=False,action='store_true',help='Will set the ID of each element as a string containing all its features')
 parser.add_argument('--path','-p',required=False,type=str,default='./',help='The location where BED files will be created, default is current working directory')
 parser.add_argument('--name','-n',required=False,type=str,default='noinp',help='The name of the BED files, default is the GFF file name')

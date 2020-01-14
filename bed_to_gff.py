@@ -77,5 +77,5 @@ else:
 		get_gff_from_bed12(args.bed_file,args.source,args.mol_type, args.make_gff3)
 	else :
 		get_gff(args.bed_file,args.source,args.mol_type, args.make_gff3)
-	print 'Created GFF file in working directory'
+	print("Created GFF file in working directory")
 
