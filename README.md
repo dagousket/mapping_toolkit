@@ -1,6 +1,6 @@
 # mapping_toolkit
 
-This repository contains python scripts to help process mapping files (BED, GFF, BAM).
+This repository contains python scripts to help process genomic coordinates files (BED, GFF).
 
 ## gff_to_bed.py 
 
