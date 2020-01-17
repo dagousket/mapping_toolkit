@@ -1,6 +1,6 @@
 # mapping_toolkit
 
-This repository contains python and R scripts to help process genomic coordinate files (BED, GFF).
+This repository contains python scripts to help process genomic coordinates files (BED, GFF).
 
 ## gff_to_bed.py 
 
@@ -12,7 +12,8 @@ usage: gff_to_bed.py [-h] --gff_file GFF_FILE [--bed12] [--no_bed6]
                      [--id_as_features] [--path PATH] [--name NAME]
                      [--verbose] [--discard] [--skip_exon_number]
 
-example run : ./gff_to_bed.py -f test_files/tiny_dmel_sample_r5-57.genes.gff -b12 -v
+example run :
+./gff_to_bed.py -f test_files/tiny_dmel_sample_r5-57.genes.gff -b12 -v
 
 Creates BED files from a given GFF file with specific filters. In BED12,
 groups all the elements of a selected molecular type according to their
