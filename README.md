@@ -79,7 +79,9 @@ optional arguments:
 
 ## summary_region_overlaps.R
 
-This script makes a diagnosis graph to assess the level of mutual overlap between three sets of genomic coordinates. Given three BED files, it outputs a Venn diagram and an Upset plot.
+This script makes a diagnosis graph to assess the level of mutual overlap between three sets of genomic coordinates. Given three BED files, it outputs a Venn diagram and an Upset plot like the one here.
+
+![Overlap Summary](./test_files/overlap_summary.pdf)
 
 ```
 Usage: summary_region_overlaps.R [options]
