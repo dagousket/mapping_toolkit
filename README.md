@@ -1,6 +1,6 @@
 # mapping_toolkit
 
-This repository contains python scripts to help process mapping files (BED, GFF, BAM).
+This repository contains python and R scripts to help process genomic coordinate files (BED, GFF).
 
 ## gff_to_bed.py 
 
@@ -56,8 +56,9 @@ Reverse complement of the gff_to_bed script. This script takes a BED file and co
 usage: bed_to_gff.py [-h] --bed_file BED_FILE --source SOURCE --mol_type
                      MOL_TYPE [--is_bed12] [--make_gff3]
 
-example run : ./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed6 -m exon -s dmel --make_gff3
-		 	  ./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed12 --is_bed12 -m exon -s dmel --make_gff3
+example run :
+./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed6 -m exon -s dmel --make_gff3
+./bed_to_gff.py -f tiny_dmel_sample_r5-57.genes.bed12 --is_bed12 -m exon -s dmel --make_gff3
 
 Creates GFF file from a given BED file. Note that the features of the GFF are
 created based on the ID of the BED file.
@@ -73,4 +74,33 @@ optional arguments:
   --is_bed12            Specify this argument if bed file is bed12 formated
                         and contain blocks
   --make_gff3           Specify if you want to make the output a proper gff3
-  ```
+```
+
+## summary_region_overlaps.R
+
+This script makes a dioagnosis graph to assess the level of mutual overlap between three sets of genomic coordinates. Given three BED files, it outputs a Venn diagram and an Upset plot.
+
+```
+Usage: summary_region_overlaps.R [options]
+An R script to perfrom overlaps between 3 BED files and extract main features.
+
+example run :
+Rscript --vanilla summary_region_overlaps.R --bed1 test_files/sample1.bed --bed2 test_files/sample2.bed --bed3 test_files/sample3.bed --out result.pdf
+
+Options:
+  --bed1=CHARACTER
+    First BED file
+
+  --bed2=CHARACTER
+    Second BED file
+
+  --bed3=CHARACTER
+    Third BED file
+
+  --out=OUT
+    path and name of the output PDF
+
+  -h, --help
+    Show this help message and exit
+```
+
