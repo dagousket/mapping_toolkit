@@ -79,14 +79,14 @@ optional arguments:
 
 ## summary_region_overlaps.R
 
-This script makes a dioagnosis graph to assess the level of mutual overlap between three sets of genomic coordinates. Given three BED files, it outputs a Venn diagram and an Upset plot.
+This script makes a diagnosis graph to assess the level of mutual overlap between three sets of genomic coordinates. Given three BED files, it outputs a Venn diagram and an Upset plot.
 
 ```
 Usage: summary_region_overlaps.R [options]
 An R script to perfrom overlaps between 3 BED files and extract main features.
 
 example run :
-Rscript --vanilla summary_region_overlaps.R --bed1 test_files/sample1.bed --bed2 test_files/sample2.bed --bed3 test_files/sample3.bed --out result.pdf
+Rscript --vanilla summary_region_overlaps.R --bed1 test_files/sample1.bed --bed2 test_files/sample2.bed --bed3 test_files/sample3.bed --out test_files/overlap_summary.pdf
 
 Options:
   --bed1=CHARACTER
