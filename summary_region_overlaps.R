@@ -18,6 +18,12 @@ option_list = list(
               help="Second BED file", metavar="character"),
   make_option(c("--bed3"), type="character",  
               help="Third BED file", metavar="character"),
+  make_option(c("--name1"), type="character",  
+              help="Name of 1st overlap", metavar="character"),
+  make_option(c("--name2"), type="character",  
+              help="Name of 2nd overlap", metavar="character"),
+  make_option(c("--name3"), type="character",  
+              help="Name of 3rd overlap", metavar="character"),
   make_option(c("--out"), type="character", 
               help="path and name of the output PDF", default = './results.pdf')
 ); 
@@ -77,7 +83,7 @@ gr_3alone <- setdiff(setdiff(gr3, gr1), gr2)
 mcols(gr_3alone)$score <- 1
 mcols(gr_3alone)$overlap <- "3"
 
-# Make a function to expand compress bedgraph format to single base pair format
+# Make a function to expand compress bed format to single base pair format
 expand_bed <- function(df){
   df_out <- c()
   for (i in 1:nrow(df)){
@@ -89,22 +95,27 @@ expand_bed <- function(df){
 # Combine all sets
 gr <- as.data.frame(c(gr_1alone, gr_2alone, gr_3alone, gr_1.2, gr_1.3, gr_2.3, gr_1.2.3))
 gr <- gr[order(gr$start),]
-gr_expanded <- expand_bed(gr)
+broad <- apply(gr, 1, function(x){paste(rep(x['overlap'], as.numeric(x['width'])), collapse = '_')})
+broad <- paste(broad, collapse = '_')
+broad <- strsplit(broad,"_")
+#gr_expanded <- expand_bed(gr)
 
 # Plot frequency of overlap type and proportion of region overlap
+gr_expanded <- data.frame("overlap" = broad[[1]])
 gr_expanded <- gr_expanded %>% mutate('layer1' = ifelse(grepl('1',overlap), 1, 0), 'layer2' = ifelse(grepl('2',overlap), 1, 0), 'layer3' = ifelse(grepl('3',overlap), 1, 0))
-upset(gr_expanded, sets = c("layer1","layer2","layer3"), sets.bar.color = "#56B4E9", order.by = "freq")
+colnames(gr_expanded) <- c('overlap',opt$name1,opt$name2,opt$name3)
+upset(gr_expanded, sets = c(opt$name1,opt$name2,opt$name3), sets.bar.color = "#56B4E9", order.by = "freq")
 grid.edit('arrange',name='arrange3')
 upset_plot = grid.grab()
 
 layer_color = colorRampPalette(brewer.pal(4,"Dark2"))(4)[c(3,2,1,4)]
-fit1 <- euler(gr_expanded[,c("layer1","layer2","layer3")])
+fit1 <- euler(gr_expanded[,c(opt$name1,opt$name2,opt$name3)])
 euler_plot <- plot(fit1,
    fill = layer_color[1:3],
    border = "transparent",
    fill_opacity = 0.6,
    cex = 1,
-   labels = c('bed1','bed2','bed3'),
+   labels = c(opt$name1,opt$name2,opt$name3),
    counts = FALSE)
   
 pdf(file = opt$out, onefile = TRUE, width = 15 , height = 7)
