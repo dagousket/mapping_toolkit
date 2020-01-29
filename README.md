@@ -80,15 +80,16 @@ optional arguments:
 ## summary_region_overlaps.R
 
 This script makes a diagnosis graph to assess the level of mutual overlap between three sets of genomic coordinates. Given three BED files, it outputs a Venn diagram and an Upset plot like the one here.
+Wether or not you apply the `--expand` argument as `TRUE` or `FALSE`, you get frequency of overlaps in terms of number of regions (`--expand FALSE`) or in terms of number of basepairs (`--expand TRUE`, by default).
 
 ![Overlap Summary](./test_files/overlap_summary.png)
 
 ```
-Usage: summary_region_overlaps.R [options]
+Usage: /Users/flochlay/Documents/ThesisSweetThesis/These/cisReg/mapping_toolkit/summary_region_overlaps.R [options]
 An R script to perfrom overlaps between 3 BED files and extract main features.
 
 example run :
-Rscript --vanilla summary_region_overlaps.R --bed1 test_files/sample1.bed --bed2 test_files/sample2.bed --bed3 test_files/sample3.bed --out test_files/overlap_summary.pdf
+Rscript --vanilla summary_region_overlaps.R --bed1 test_files/sample1.bed --bed2 test_files/sample2.bed --bed3 test_files/sample3.bed --out test_files/overlap_summary.pdf --name1 layer1 --name2 layer2 --name3 layer3 --expand TRUE
 
 Options:
   --bed1=CHARACTER
@@ -100,8 +101,20 @@ Options:
   --bed3=CHARACTER
     Third BED file
 
+  --name1=CHARACTER
+    Name of 1st overlap
+
+  --name2=CHARACTER
+    Name of 2nd overlap
+
+  --name3=CHARACTER
+    Name of 3rd overlap
+
   --out=OUT
     path and name of the output PDF
+
+  --expand=CHARACTER
+    If set as FALSE, overlap frequencies are based on region counts rather than base pair counts (usefull for large dataset)
 
   -h, --help
     Show this help message and exit
