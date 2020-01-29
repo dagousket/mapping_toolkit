@@ -25,7 +25,9 @@ option_list = list(
   make_option(c("--name3"), type="character",  
               help="Name of 3rd overlap", metavar="character"),
   make_option(c("--out"), type="character", 
-              help="path and name of the output PDF", default = './results.pdf')
+              help="path and name of the output PDF", default = './results.pdf'),
+  make_option(c("--expand"), type="logical", default = TRUE,  
+              help="If set as FALSE, overlap frequencies are based on region counts rather than base pair counts (usefull for large dataset)", metavar="character")
 ); 
 
 opt_parser = OptionParser(option_list=option_list, description = "An R script to perfrom overlaps between 3 BED files and extract main features.");
@@ -83,33 +85,25 @@ gr_3alone <- setdiff(setdiff(gr3, gr1), gr2)
 mcols(gr_3alone)$score <- 1
 mcols(gr_3alone)$overlap <- "3"
 
-# Make a function to expand compress bed format to single base pair format
-expand_bed <- function(df){
-  df_out <- c()
-  for (i in 1:nrow(df)){
-    df_out <- rbind(df_out, data.frame('seqname' = df[i,'seqnames'], 'bp' = seq(df[i,'start'],df[i,'end']),'score' = df[i,'score'],'overlap'=df[i, 'overlap']))
-  }
-  return(df_out)
-}
-
 # Combine all sets
 gr <- as.data.frame(c(gr_1alone, gr_2alone, gr_3alone, gr_1.2, gr_1.3, gr_2.3, gr_1.2.3))
-gr <- gr[order(gr$start),]
-broad <- apply(gr, 1, function(x){paste(rep(x['overlap'], as.numeric(x['width'])), collapse = '_')})
-broad <- paste(broad, collapse = '_')
-broad <- strsplit(broad,"_")
-#gr_expanded <- expand_bed(gr)
+gr <- gr[order(gr$start),] %>% mutate('layer1' = ifelse(grepl('1',overlap), 1, 0), 'layer2' = ifelse(grepl('2',overlap), 1, 0), 'layer3' = ifelse(grepl('3',overlap), 1, 0))
+gr_shrinked <- gr %>% group_by(overlap) %>% summarise(width_bp = sum(width), width_region = length(width)) %>% mutate(overlap = gsub('[^1-9]','&',overlap)) %>% mutate(overlap = gsub('1',opt$name1,gsub('2',opt$name2,gsub('3',opt$name3,overlap))))
+
+if (opt$expand == TRUE){
+  overlap_list <- gr_shrinked$width_bp
+} else if(opt$expand == FALSE){
+  overlap_list <- gr_shrinked$width_region
+}
+names(overlap_list) <- gr_shrinked$overlap
 
 # Plot frequency of overlap type and proportion of region overlap
-gr_expanded <- data.frame("overlap" = broad[[1]])
-gr_expanded <- gr_expanded %>% mutate('layer1' = ifelse(grepl('1',overlap), 1, 0), 'layer2' = ifelse(grepl('2',overlap), 1, 0), 'layer3' = ifelse(grepl('3',overlap), 1, 0))
-colnames(gr_expanded) <- c('overlap',opt$name1,opt$name2,opt$name3)
-upset(gr_expanded, sets = c(opt$name1,opt$name2,opt$name3), sets.bar.color = "#56B4E9", order.by = "freq")
+upset(fromExpression(overlap_list), sets.bar.color = "#56B4E9", order.by = "freq")
 grid.edit('arrange',name='arrange3')
 upset_plot = grid.grab()
 
 layer_color = colorRampPalette(brewer.pal(4,"Dark2"))(4)[c(3,2,1,4)]
-fit1 <- euler(gr_expanded[,c(opt$name1,opt$name2,opt$name3)])
+fit1 <- euler(overlap_list)
 euler_plot <- plot(fit1,
    fill = layer_color[1:3],
    border = "transparent",
