@@ -62,28 +62,35 @@ gr3 <- GRanges(seqnames = Rle(bed3$V1), ranges = IRanges(start = bed3$V2, end = 
 
 # Build set of 2 layers and 3 layers regions
 gr_1.2 <- setdiff(intersect(gr1, gr2), gr3)
+if (length(gr_1.2) > 0){
 mcols(gr_1.2)$score <- 2
-mcols(gr_1.2)$overlap <- "1.2"
+mcols(gr_1.2)$overlap <- "1.2"}
 gr_2.3 <- setdiff(intersect(gr2, gr3), gr1)
+if (length(gr_2.3) > 0){
 mcols(gr_2.3)$score <- 2
-mcols(gr_2.3)$overlap <- "2.3"
+mcols(gr_2.3)$overlap <- "2.3"}
 gr_1.3 <- setdiff(intersect(gr1, gr3), gr2)
+if (length(gr_1.3) > 0){
 mcols(gr_1.3)$score <- 2
-mcols(gr_1.3)$overlap <- "1.3"
+mcols(gr_1.3)$overlap <- "1.3"}
 gr_1.2.3 <- intersect(intersect(gr1, gr2),gr3)
+if (length(gr_1.2.3) > 0){
 mcols(gr_1.2.3)$score <- 3
-mcols(gr_1.2.3)$overlap <- "1.2.3"
+mcols(gr_1.2.3)$overlap <- "1.2.3"}
 
 # Build set of non-overlapping regions
 gr_1alone <- setdiff(setdiff(gr1, gr2), gr3)
+if (length(gr_1alone) > 0){
 mcols(gr_1alone)$score <- 1
-mcols(gr_1alone)$overlap <- "1"
+mcols(gr_1alone)$overlap <- "1"}
 gr_2alone <- setdiff(setdiff(gr2, gr3), gr1)
+if (length(gr_2alone) > 0){
 mcols(gr_2alone)$score <- 1
-mcols(gr_2alone)$overlap <- "2"
+mcols(gr_2alone)$overlap <- "2"}
 gr_3alone <- setdiff(setdiff(gr3, gr1), gr2)
+if (length(gr_3alone) > 0){
 mcols(gr_3alone)$score <- 1
-mcols(gr_3alone)$overlap <- "3"
+mcols(gr_3alone)$overlap <- "3"}
 
 # Combine all sets
 gr <- as.data.frame(c(gr_1alone, gr_2alone, gr_3alone, gr_1.2, gr_1.3, gr_2.3, gr_1.2.3))
